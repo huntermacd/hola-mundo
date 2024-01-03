@@ -10,19 +10,16 @@ services:
       init:
         - apt-get update
         - apt-get install -yq ca-certificates curl gnupg
-        # Install nvm to manage node versions
-        - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-        # Reinitiate terminal to use nvm command
-        - exec $SHELL
-        - nvm install node
-        - nvm current
+
+        - curl -sL https://deb.nodesource.com/setup_18.x | sh
+        - apt-get install -y nodejs
+
         # Set the webroot for to the Gatsby public folder.
         # Change this if you specify a different root for your public site.
         - ln -snf "${TUGBOAT_ROOT}/public" "${DOCROOT}"
 
       # Load dependent libraries and assets to prepare the site for build.
       update:
-        - nvm use node
         # Run the node.js installer to install Gatsby and its dependencies.
         - npm install
 
