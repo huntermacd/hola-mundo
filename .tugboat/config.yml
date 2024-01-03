@@ -3,6 +3,7 @@ services:
   apache:
     # Use the most recent version of httpd service.
     image: tugboatqa/httpd:latest
+    subpath: true
 
     # Run these commands to initialize the server, update it with any libraries and assets required, then build your site.
     commands:
