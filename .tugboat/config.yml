@@ -17,7 +17,7 @@ services:
         - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" |
           tee /etc/apt/sources.list.d/nodesource.list
         - apt-get update
-        - apt-get install -yq nodejs
+        - apt-get install -yq nodejs npm
 
         # Set the webroot for to the Gatsby public folder.
         # Change this if you specify a different root for your public site.
