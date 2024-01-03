@@ -1,0 +1,34 @@
+services:
+  # Configure a standard apache webserver to host our site.
+  apache:
+    # Use the most recent version of httpd service.
+    image: tugboatqa/httpd:latest
+
+    # Run these commands to initialize the server, update it with any libraries and assets required, then build your site.
+    commands:
+      # Initialize the server.
+      init:
+        # Install node.js version 18.
+        - apt-get update
+        - apt-get install -yq ca-certificates curl gnupg
+        - mkdir -p /etc/apt/keyrings
+        - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o
+          /etc/apt/keyrings/nodesource.gpg
+        - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" |
+          tee /etc/apt/sources.list.d/nodesource.list
+        - apt-get update
+        - apt-get install -yq nodejs
+
+        # Set the webroot for to the Gatsby public folder.
+        # Change this if you specify a different root for your public site.
+        - ln -snf "${TUGBOAT_ROOT}/public" "${DOCROOT}"
+
+      # Load dependent libraries and assets to prepare the site for build.
+      update:
+        # Run the node.js installer to install Gatsby and its dependencies.
+        - npm install
+
+      # Run any commands needed to build the site.
+      build:
+        # Build the static Gatsby site.
+        - npm run build
