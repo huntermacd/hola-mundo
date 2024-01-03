@@ -8,23 +8,19 @@ services:
     commands:
       # Initialize the server.
       init:
-        # Install node.js version 18.
         - apt-get update
         - apt-get install -yq ca-certificates curl gnupg
-        - mkdir -p /etc/apt/keyrings
-        - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o
-          /etc/apt/keyrings/nodesource.gpg
-        - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" |
-          tee /etc/apt/sources.list.d/nodesource.list
-        - apt-get update
-        - apt-get install -yq nodejs
-
+        # Install nvm to manage node versions
+        - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+        - nvm install node
+        - nvm current
         # Set the webroot for to the Gatsby public folder.
         # Change this if you specify a different root for your public site.
         - ln -snf "${TUGBOAT_ROOT}/public" "${DOCROOT}"
 
       # Load dependent libraries and assets to prepare the site for build.
       update:
+        - nvm use node
         # Run the node.js installer to install Gatsby and its dependencies.
         - npm install
 
